@@ -3,6 +3,7 @@ package com.example.keuzevakapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,13 +36,27 @@ public class MainActivity extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
 
+        if(fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(), Dashboard.class));
+            finish();
+        }
+
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(checkEmailAndPassword()){
-                    Toast t = Toast.makeText(MainActivity.this, "Login successfull", Toast.LENGTH_SHORT);
-                    t.show();
+                    fAuth.signInWithEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(MainActivity.this, task.getResult().toString(), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), Dashboard.class));
+                            } else {
+                                Toast.makeText(MainActivity.this, "Error! " + task.getException(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } else {
                     Toast t = Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT);
                     t.show();
@@ -58,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(MainActivity.this, "User created", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), Dashboard.class));
                             } else {
                                 Toast.makeText(MainActivity.this, "Error! " + task.getException(), Toast.LENGTH_SHORT).show();
                             }
