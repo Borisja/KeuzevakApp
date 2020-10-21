@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "554417897524",
+    "firebase_url": "https://keuzevakapp.firebaseio.com",
+    "project_id": "keuzevakapp",
+    "storage_bucket": "keuzevakapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554417897524:android:8283b8594ff5d885048a61",
+        "android_client_info": {
+          "package_name": "com.example.keuzevakapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554417897524-lags0bhmt78lutno8nrg9i4jc5trtshi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8vtG64ZB_15jYQphejmR3haSUAJAyMqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554417897524-lags0bhmt78lutno8nrg9i4jc5trtshi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
