@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, task.getResult().toString(), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), Dashboard.class));
                             } else {
-                                Toast.makeText(MainActivity.this, "Error! " + task.getException(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, getString(R.string.defaultError) + " " + task.getException(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "User created", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), Dashboard.class));
                             } else {
-                                Toast.makeText(MainActivity.this, "Error! " + task.getException(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, getString(R.string.defaultError) + " " + task.getException(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

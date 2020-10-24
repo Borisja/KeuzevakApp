@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class Dashboard extends AppCompatActivity {
 
     Button mLogOutBtn;
+    Button mAddClassBtn;
+    Button mViewClassesBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,13 @@ public class Dashboard extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         setUpUIElements();
 
+        mAddClassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AddClass.class));
+                finish();
+            }
+        });
 
         mLogOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,10 +38,20 @@ public class Dashboard extends AppCompatActivity {
                 finish();
             }
         });
+
+        mViewClassesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ClassList.class));
+                finish();
+            }
+        });
     }
 
 
     public void setUpUIElements(){
         mLogOutBtn = findViewById(R.id.logoutBtn);
+        mAddClassBtn = findViewById(R.id.addNewClassBtn);
+        mViewClassesBtn = findViewById(R.id.viewClassesBtn);
     }
 }

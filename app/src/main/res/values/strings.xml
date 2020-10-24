@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">KeuzevakApp</string>
+
+    <string name="defaultError">Something horrible has gone wrong!</string>
+
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="register">Create Account</string>
@@ -9,4 +12,15 @@
 
     <string name="textPassword">Password</string>
     <string name="textPasswordError">Password is required</string>
+
+
+    <string name="addClassClassAdd">Add a new school class</string>
+    <string name="addClassClassView">View classes</string>
+    <string name="addClassClassCode">Code</string>
+    <string name="addClassClassName">Name</string>
+    <string name="addClassClassDescription">Description</string>
+    <string name="addClassClassEC">EC</string>
+    <string name="addClassClassYear">Year</string>
+    <string name="addClassClassPeriode">Periode</string>
+    <string name="addCLassMainClass">Non mandatory</string>
 </resources>

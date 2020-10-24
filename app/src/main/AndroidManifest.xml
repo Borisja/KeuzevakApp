@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KeuzevakApp">
-        <activity android:name=".Dashboard"></activity>
+        <activity android:name=".ClassCard"></activity>
+        <activity android:name=".ClassList" />
+        <activity android:name=".Dashboard" />
+        <activity android:name=".AddClass" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
