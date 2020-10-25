@@ -13,6 +13,8 @@
     <string name="textPassword">Password</string>
     <string name="textPasswordError">Password is required</string>
 
+    <string name="addClassClassData">View data</string>
+
 
     <string name="addClassClassAdd">Add a new school class</string>
     <string name="addClassClassView">View classes</string>

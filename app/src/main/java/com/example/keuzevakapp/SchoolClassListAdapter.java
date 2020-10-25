@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,14 @@ public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassList
         holder.classYear.setText("Year: " + schoolClass.getYear());
         holder.classPeriod.setText("Periode: "+schoolClass.getPeriod());
 
+        if(schoolClass.getNotes() != null){
+            holder.classNotes.setVisibility(View.VISIBLE);
+        }
+
+        if(schoolClass.getGrade() >= 5.5){
+            holder.classPassed.setVisibility(View.VISIBLE);
+        }
+
         holder.itemView.setOnClickListener((view) -> {
 
             sharedPref = context.getSharedPreferences("classCode", context.MODE_PRIVATE);
@@ -74,6 +83,8 @@ public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassList
         public TextView classEC;
         public TextView classYear;
         public TextView classPeriod;
+        public ImageView classNotes;
+        public ImageView classPassed;
 
 
         public ViewHolder(View itemView) {
@@ -84,6 +95,10 @@ public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassList
             classEC = itemView.findViewById(R.id.classEC);
             classYear = itemView.findViewById(R.id.classYear);
             classPeriod = itemView.findViewById(R.id.classPeriod);
+            classNotes = itemView.findViewById(R.id.classHasNotes);
+            classPassed = itemView.findViewById(R.id.classPassed);
+
+
         }
     }
 }

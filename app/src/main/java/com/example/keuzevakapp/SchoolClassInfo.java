@@ -4,20 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,9 +35,9 @@ public class SchoolClassInfo extends AppCompatActivity {
     private TextView mClassPeriod;
     private EditText mClassNotes;
     private EditText mClassGrade;
-    private Button mSavebtn;
+    private Button mSaveBtn;
 
-    private SharedPreferences sharedpreff;
+    private SharedPreferences sharedPreff;
 
     private DatabaseReference firebaseRef;
     private FirebaseAuth fAuth;
@@ -53,14 +51,14 @@ public class SchoolClassInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_class_info);
 
-        setUIElements();
+        setupUIElements();
 
-        sharedpreff = getApplicationContext().getSharedPreferences("classCode", Context.MODE_PRIVATE);
-        String classCode = sharedpreff.getString("classCode", "");
+        sharedPreff = getApplicationContext().getSharedPreferences("classCode", Context.MODE_PRIVATE);
+        String classCode = sharedPreff.getString("classCode", "");
 
         getDataFromBackend(classCode);
 
-        mSavebtn.setOnClickListener(new View.OnClickListener() {
+        mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setValuesToModel();
@@ -71,6 +69,7 @@ public class SchoolClassInfo extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(SchoolClassInfo.this, "Class " + schoolClass.getCode() + " has been saved!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), SchoolClassList.class));
                         } else {
                             Toast.makeText(SchoolClassInfo.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
                         }
@@ -80,7 +79,7 @@ public class SchoolClassInfo extends AppCompatActivity {
         });
     }
 
-    private void setUIElements(){
+    private void setupUIElements(){
         mClassCode = findViewById(R.id.classCodeInfo);
         mClassName = findViewById(R.id.classNameInfo);
         mClassDescription = findViewById(R.id.classDescriptionInfo);
@@ -90,7 +89,7 @@ public class SchoolClassInfo extends AppCompatActivity {
         mClassNotes = findViewById(R.id.classNotesInfo);
         mClassGrade = findViewById(R.id.classGradeInfo);
 
-        mSavebtn = findViewById(R.id.saveClassBtn);
+        mSaveBtn = findViewById(R.id.saveClassBtn);
     }
 
     private void getDataFromBackend(String selectedClass){
@@ -103,11 +102,8 @@ public class SchoolClassInfo extends AppCompatActivity {
                 if(snapshot.exists()){
                     schoolClass = snapshot.getValue(SchoolClass.class);
 
-                    Toast.makeText(SchoolClassInfo.this, "bestaat???", Toast.LENGTH_SHORT).show();
-
                     fillActivityWithData();
                 } else {
-                    Toast.makeText(SchoolClassInfo.this, "neee???", Toast.LENGTH_SHORT).show();
                     getClassTemplateFromBackend(selectedClass);
                 }
             }
@@ -125,8 +121,6 @@ public class SchoolClassInfo extends AppCompatActivity {
         firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                Toast.makeText(SchoolClassInfo.this, "WTF???", Toast.LENGTH_SHORT).show();
 
                 schoolClass = snapshot.getValue(SchoolClass.class);
 

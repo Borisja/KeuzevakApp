@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +26,7 @@ public class SchoolClassList extends AppCompatActivity {
     private GridLayoutManager gridLayoutManager;
     private SchoolClassListAdapter adapter;
     private List<SchoolClass> classList;
+    private List<SchoolClass> userClassList;
     private DatabaseReference firebaseRef;
 
     @Override
@@ -32,8 +35,10 @@ public class SchoolClassList extends AppCompatActivity {
         setContentView(R.layout.activity_class_list);
 
         classList = new ArrayList<>();
+        userClassList = new ArrayList<>();
 
-        getDataFromBackend();
+        getUserClassDataFromBackend();
+        getClassDataFromBackend();
 
         recyclerView = (RecyclerView) findViewById(R.id.classListRecyclerView);
 
@@ -44,8 +49,30 @@ public class SchoolClassList extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    private void getUserClassDataFromBackend(){
+        firebaseRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("classes");
+        firebaseRef.keepSynced(true);
+        firebaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot classSnapshot : snapshot.getChildren()){
 
-    private void getDataFromBackend(){
+                    SchoolClass schoolClass = classSnapshot.getValue(SchoolClass.class);
+
+                    userClassList.add(schoolClass);
+                }
+
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getClassDataFromBackend(){
         firebaseRef = FirebaseDatabase.getInstance().getReference().child("classes");
         firebaseRef.keepSynced(true);
         firebaseRef.addValueEventListener(new ValueEventListener() {
@@ -54,6 +81,12 @@ public class SchoolClassList extends AppCompatActivity {
                 for (DataSnapshot classSnapshot : snapshot.getChildren()){
 
                     SchoolClass schoolClass = classSnapshot.getValue(SchoolClass.class);
+
+                   for(int i = 0; i < userClassList.size(); i++){
+                       if(userClassList.get(i).getCode().equalsIgnoreCase(schoolClass.getCode())){
+                           schoolClass = userClassList.get(i);
+                       }
+                   }
 
                    classList.add(schoolClass);
                 }

@@ -6,14 +6,16 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Dashboard extends AppCompatActivity {
 
     Button mLogOutBtn;
-    Button mAddClassBtn;
-    Button mViewClassesBtn;
+    CardView mNewClass;
+    CardView mViewClass;
+    CardView mClassDataView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,37 +23,43 @@ public class Dashboard extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         setUpUIElements();
 
-        mAddClassBtn.setOnClickListener(new View.OnClickListener() {
+        mNewClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), AddSchoolClass.class));
-                finish();
             }
         });
 
-        mLogOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+//        mLogOutBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FirebaseAuth.getInstance().signOut();
+//
+//                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                finish();
+//            }
+//        });
 
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            }
-        });
-
-        mViewClassesBtn.setOnClickListener(new View.OnClickListener() {
+        mViewClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), SchoolClassList.class));
-                finish();
+            }
+        });
+
+        mClassDataView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SchoolClassDataView.class));
             }
         });
     }
 
 
     public void setUpUIElements(){
-        mLogOutBtn = findViewById(R.id.logoutBtn);
-        mAddClassBtn = findViewById(R.id.addNewClassBtn);
-        mViewClassesBtn = findViewById(R.id.viewClassesBtn);
+        //mLogOutBtn = findViewById(R.id.logoutBtn);
+        mNewClass = findViewById(R.id.cardViewNewClass);
+        mViewClass = findViewById(R.id.cardViewViewClass);
+        mClassDataView = findViewById(R.id.cardViewViewClassData);
     }
 }
