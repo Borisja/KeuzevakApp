@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KeuzevakApp">
-        <activity android:name=".ClassCard"></activity>
+        <activity android:name=".SchoolClassInfo"></activity>
+        <activity android:name=".ClassCard" />
         <activity android:name=".ClassList" />
         <activity android:name=".Dashboard" />
         <activity android:name=".AddClass" />

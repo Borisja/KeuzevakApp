@@ -23,4 +23,6 @@
     <string name="addClassClassYear">Year</string>
     <string name="addClassClassPeriode">Periode</string>
     <string name="addCLassMainClass">Non mandatory</string>
+
+    <string name="classInfoSaveBtn">Save class</string>
 </resources>

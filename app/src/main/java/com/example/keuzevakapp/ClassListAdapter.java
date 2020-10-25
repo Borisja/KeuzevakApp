@@ -2,6 +2,7 @@ package com.example.keuzevakapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
 
     private Context context;
     private List<SchoolClass> classList;
+    private SharedPreferences sharedPref;
 
     public ClassListAdapter(Context context, List<SchoolClass> classList) {
         this.context = context;
@@ -37,17 +39,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_class_card, parent, false);
-
-
-
-
-
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("test", classList.get(viewType).getCode());
-            }
-        });
 
         return new ViewHolder(itemView);
     }
@@ -65,7 +56,16 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
         holder.classPeriod.setText("Periode: "+schoolClass.getPeriod());
 
         holder.itemView.setOnClickListener((view) -> {
-            Toast.makeText(context, "You have selected: " + schoolClass.getCode(), Toast.LENGTH_SHORT).show();
+
+            sharedPref = context.getSharedPreferences("classCode", context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("classCode", schoolClass.getCode());
+            editor.commit();
+
+            Intent itent = new Intent(context, SchoolClassInfo.class);
+
+            context.startActivity(itent);
         });
 
     }
