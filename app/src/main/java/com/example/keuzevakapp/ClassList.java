@@ -27,7 +27,6 @@ public class ClassList extends AppCompatActivity {
     private ClassListAdapter adapter;
     private List<SchoolClass> classList;
     private DatabaseReference firebaseRef;
-    private JSONArray classesJson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +49,7 @@ public class ClassList extends AppCompatActivity {
 
     private void getDataFromBackend(){
         firebaseRef = FirebaseDatabase.getInstance().getReference().child("classes");
+        firebaseRef.keepSynced(true);
         firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
