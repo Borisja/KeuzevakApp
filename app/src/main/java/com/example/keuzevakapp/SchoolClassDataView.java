@@ -34,7 +34,6 @@ public class SchoolClassDataView extends AppCompatActivity {
 
     ArrayList<PieEntry> values;
 
-    int ECpassed;
     int ECMax;
 
     @Override
@@ -62,10 +61,6 @@ public class SchoolClassDataView extends AppCompatActivity {
         piechart.setDrawHoleEnabled(false);
         piechart.setHoleColor(Color.WHITE);
         piechart.setTransparentCircleRadius(61f);
-
-        //ECpassed = 3;
-        //ECMax = 12;
-
 
         PieDataSet dataSet = new PieDataSet(values, "");
         dataSet.setSliceSpace(3f);
