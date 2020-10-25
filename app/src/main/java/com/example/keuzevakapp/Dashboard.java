@@ -24,7 +24,7 @@ public class Dashboard extends AppCompatActivity {
         mAddClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddClass.class));
+                startActivity(new Intent(getApplicationContext(), AddSchoolClass.class));
                 finish();
             }
         });
@@ -42,7 +42,7 @@ public class Dashboard extends AppCompatActivity {
         mViewClassesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ClassList.class));
+                startActivity(new Intent(getApplicationContext(), SchoolClassList.class));
                 finish();
             }
         });

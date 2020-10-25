@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import models.SchoolClass;
 
-public class AddClass extends AppCompatActivity {
+public class AddSchoolClass extends AppCompatActivity {
 
     EditText mCode;
     EditText mName;
@@ -65,9 +65,9 @@ public class AddClass extends AppCompatActivity {
                                 newClass.setMandatory(false);
                             }
                             
-                            Toast.makeText(AddClass.this, "Class " + newClass.getCode() + " has been created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddSchoolClass.this, "Class " + newClass.getCode() + " has been created", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(AddClass.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddSchoolClass.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -6,9 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import models.SchoolClass;
+import models.User;
 
 public class SchoolClassInfo extends AppCompatActivity {
 
@@ -25,12 +35,17 @@ public class SchoolClassInfo extends AppCompatActivity {
     private TextView mClassEc;
     private TextView mClassYear;
     private TextView mClassPeriod;
+    private EditText mClassNotes;
+    private EditText mClassGrade;
+    private Button mSavebtn;
 
     private SharedPreferences sharedpreff;
 
     private DatabaseReference firebaseRef;
+    private FirebaseAuth fAuth;
 
     private SchoolClass schoolClass;
+    private User currentUser;
 
 
     @Override
@@ -44,6 +59,25 @@ public class SchoolClassInfo extends AppCompatActivity {
         String classCode = sharedpreff.getString("classCode", "");
 
         getDataFromBackend(classCode);
+
+        mSavebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setValuesToModel();
+                firebaseRef.keepSynced(true);
+
+                firebaseRef.getRoot().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("classes").child(schoolClass.getCode()).setValue(schoolClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(SchoolClassInfo.this, "Class " + schoolClass.getCode() + " has been saved!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SchoolClassInfo.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void setUIElements(){
@@ -53,14 +87,46 @@ public class SchoolClassInfo extends AppCompatActivity {
         mClassEc = findViewById(R.id.classEcInfo);
         mClassYear = findViewById(R.id.classYearInfo);
         mClassPeriod = findViewById(R.id.classPeriodInfo);
+        mClassNotes = findViewById(R.id.classNotesInfo);
+        mClassGrade = findViewById(R.id.classGradeInfo);
+
+        mSavebtn = findViewById(R.id.saveClassBtn);
     }
 
     private void getDataFromBackend(String selectedClass){
+        firebaseRef = FirebaseDatabase.getInstance().getReference().getRoot().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("classes").child(selectedClass);
+        firebaseRef.keepSynced(true);
+        firebaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+                    schoolClass = snapshot.getValue(SchoolClass.class);
+
+                    Toast.makeText(SchoolClassInfo.this, "bestaat???", Toast.LENGTH_SHORT).show();
+
+                    fillActivityWithData();
+                } else {
+                    Toast.makeText(SchoolClassInfo.this, "neee???", Toast.LENGTH_SHORT).show();
+                    getClassTemplateFromBackend(selectedClass);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(SchoolClassInfo.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getClassTemplateFromBackend(String selectedClass){
         firebaseRef = FirebaseDatabase.getInstance().getReference().child("classes").child(selectedClass);
         firebaseRef.keepSynced(true);
         firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Toast.makeText(SchoolClassInfo.this, "WTF???", Toast.LENGTH_SHORT).show();
 
                 schoolClass = snapshot.getValue(SchoolClass.class);
 
@@ -81,5 +147,16 @@ public class SchoolClassInfo extends AppCompatActivity {
         mClassEc.setText("EC: " + schoolClass.getEc());
         mClassYear.setText("Year: " + schoolClass.getYear());
         mClassPeriod.setText("Period: " + schoolClass.getPeriod());
+        mClassNotes.setText(schoolClass.getNotes());
+        mClassGrade.setText(String.valueOf(schoolClass.getGrade()));
+    }
+
+    private void setValuesToModel(){
+        if(!mClassNotes.getText().toString().isEmpty()){
+            schoolClass.setNotes(mClassNotes.getText().toString());
+        }
+        if(!mClassGrade.getText().toString().isEmpty()){
+            schoolClass.setGrade(Float.parseFloat(mClassGrade.getText().toString()));
+        }
     }
 }

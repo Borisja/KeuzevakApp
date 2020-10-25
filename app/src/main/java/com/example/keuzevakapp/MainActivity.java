@@ -17,6 +17,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import models.User;
+
 import static android.util.Log.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(MainActivity.this, task.getResult().toString(), Toast.LENGTH_SHORT).show();
+                                User currentUser = new User(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
                                 startActivity(new Intent(getApplicationContext(), Dashboard.class));
                             } else {
                                 Toast.makeText(MainActivity.this, getString(R.string.defaultError) + " " + task.getException(), Toast.LENGTH_SHORT).show();

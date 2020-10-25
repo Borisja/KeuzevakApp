@@ -13,18 +13,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import models.SchoolClass;
 
-public class ClassList extends AppCompatActivity {
+public class SchoolClassList extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
-    private ClassListAdapter adapter;
+    private SchoolClassListAdapter adapter;
     private List<SchoolClass> classList;
     private DatabaseReference firebaseRef;
 
@@ -42,7 +40,7 @@ public class ClassList extends AppCompatActivity {
         gridLayoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new ClassListAdapter(this, classList);
+        adapter = new SchoolClassListAdapter(this, classList);
         recyclerView.setAdapter(adapter);
     }
 

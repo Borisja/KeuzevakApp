@@ -8,7 +8,7 @@ public class SchoolClass {
     private int ec;
     private int year;
     private int period;
-    private int grade;
+    private float grade;
     private boolean mandatory;
 
     public SchoolClass(){
@@ -83,11 +83,11 @@ public class SchoolClass {
         this.period = period;
     }
 
-    public int getGrade() {
+    public float getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(float grade) {
         this.grade = grade;
     }
 

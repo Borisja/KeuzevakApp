@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KeuzevakApp">
         <activity android:name=".SchoolClassInfo"></activity>
-        <activity android:name=".ClassCard" />
-        <activity android:name=".ClassList" />
+        <activity android:name=".SchoolClassCard" />
+        <activity android:name=".SchoolClassList" />
         <activity android:name=".Dashboard" />
-        <activity android:name=".AddClass" />
+        <activity android:name=".AddSchoolClass" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
