@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_newClass"
+            android:icon="@drawable/round_playlist_add_black_48"
+            android:title="Add new class" />
+
+        <item
+            android:id="@+id/nav_viewClass"
+            android:icon="@drawable/round_pageview_black_48"
+            android:title="View classes" />
+
+        <item
+            android:id="@+id/nav_classData"
+            android:icon="@drawable/round_data_usage_black_48"
+            android:title="View data" />
+
+    </group>
+</menu>

@@ -15,7 +15,8 @@
         <activity android:name=".SchoolClassList" />
         <activity android:name=".Dashboard" />
         <activity android:name=".AddSchoolClass" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.KeuzevakApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

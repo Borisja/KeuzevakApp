@@ -1,10 +1,14 @@
 package com.example.keuzevakapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -17,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import models.SchoolClass;
 
-public class AddSchoolClass extends AppCompatActivity {
+public class AddSchoolClass extends Fragment {
 
     EditText mCode;
     EditText mName;
@@ -31,61 +35,67 @@ public class AddSchoolClass extends AppCompatActivity {
 
     Button mCreateClass;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_class);
-        setupUIElements();
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mCreateClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SchoolClass newClass = new SchoolClass(
-                        mCode.getText().toString().toUpperCase(),
-                        mName.getText().toString(),
-                        mDescription.getText().toString(),
-                        null,
-                        Integer.parseInt(mEc.getText().toString()),
-                        Integer.parseInt(mYear.getText().toString()),
-                        Integer.parseInt(mPeriod.getText().toString()),
-                        0,
-                        true);
-
-
-                mDatabase.keepSynced(true);
-
-                mDatabase.child("classes").child(newClass.getCode()).setValue(newClass).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-
-                            if(mNonMandatory.isChecked()){
-                                newClass.setMandatory(false);
-                            }
-                            
-                            Toast.makeText(AddSchoolClass.this, "Class " + newClass.getCode() + " has been created", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(AddSchoolClass.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        });
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_dashboard, container, false);
     }
 
-
-    public void setupUIElements(){
-        mCode = findViewById(R.id.textClassCode);
-        mName = findViewById(R.id.textClassName);
-        mDescription = findViewById(R.id.textClassDescription);
-        mEc = findViewById(R.id.textClassEC);
-        mYear = findViewById(R.id.textCLassYear);
-        mPeriod = findViewById(R.id.textClassPeriode);
-        mNonMandatory = findViewById(R.id.switchNonMandatory);
-
-        mCreateClass = findViewById(R.id.createCLassBtn);
-    }
+    //    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_add_class);
+//        setupUIElements();
+//
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//
+//        mCreateClass.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SchoolClass newClass = new SchoolClass(
+//                        mCode.getText().toString().toUpperCase(),
+//                        mName.getText().toString(),
+//                        mDescription.getText().toString(),
+//                        null,
+//                        Integer.parseInt(mEc.getText().toString()),
+//                        Integer.parseInt(mYear.getText().toString()),
+//                        Integer.parseInt(mPeriod.getText().toString()),
+//                        0,
+//                        true);
+//
+//
+//                mDatabase.keepSynced(true);
+//
+//                mDatabase.child("classes").child(newClass.getCode()).setValue(newClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if(task.isSuccessful()){
+//
+//                            if(mNonMandatory.isChecked()){
+//                                newClass.setMandatory(false);
+//                            }
+//
+//                            Toast.makeText(AddSchoolClass.this, "Class " + newClass.getCode() + " has been created", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(AddSchoolClass.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//
+//    }
+//
+//
+//    public void setupUIElements(){
+//        mCode = findViewById(R.id.textClassCode);
+//        mName = findViewById(R.id.textClassName);
+//        mDescription = findViewById(R.id.textClassDescription);
+//        mEc = findViewById(R.id.textClassEC);
+//        mYear = findViewById(R.id.textCLassYear);
+//        mPeriod = findViewById(R.id.textClassPeriode);
+//        mNonMandatory = findViewById(R.id.switchNonMandatory);
+//
+//        mCreateClass = findViewById(R.id.createCLassBtn);
+//    }
 }
