@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import maes.tech.intentanim.CustomIntent;
 import models.SchoolClass;
 
 public class SchoolClassDataView extends AppCompatActivity {
@@ -37,6 +39,7 @@ public class SchoolClassDataView extends AppCompatActivity {
     Button mYear2Btn;
     Button mYear3Btn;
     Button mYear4Btn;
+    String userUid;
 
     ArrayList<PieEntry> values;
 
@@ -46,6 +49,16 @@ public class SchoolClassDataView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_class_data_view);
+
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user == null){
+            userUid = "KM9TfEOWEtRu9dwtdUpnc1cN2C93";
+        } else {
+            userUid = user.getUid().toString();
+        }
 
         setUpUiElements();
         getClassTemplateFromBackend(1);
@@ -122,7 +135,7 @@ public class SchoolClassDataView extends AppCompatActivity {
     }
 
     private void getUserClassFromBackend(int year) {
-        firebaseRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("classes");
+        firebaseRef = FirebaseDatabase.getInstance().getReference().child("users").child(userUid).child("classes");
         firebaseRef.keepSynced(true);
         firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -150,6 +163,12 @@ public class SchoolClassDataView extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        CustomIntent.customType(this, "up-to-bottom");
     }
 
     private void getClassTemplateFromBackend(int year) {

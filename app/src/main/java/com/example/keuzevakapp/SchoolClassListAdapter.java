@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import maes.tech.intentanim.CustomIntent;
 import models.SchoolClass;
 
 public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassListAdapter.ViewHolder> {
@@ -26,6 +27,10 @@ public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassList
 
     public SchoolClassListAdapter(Context context, List<SchoolClass> classList) {
         this.context = context;
+        this.classList = classList;
+    }
+
+    public void updateDataset(List<SchoolClass> classList) {
         this.classList = classList;
     }
 
@@ -73,6 +78,9 @@ public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassList
             Intent itent = new Intent(context, SchoolClassInfo.class);
 
             context.startActivity(itent);
+            CustomIntent.customType(context, "fadein-to-fadeout");
+
+
         });
 
     }

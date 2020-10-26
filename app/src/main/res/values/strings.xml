@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KeuzevakApp</string>
+    <string name="app_name">SLB App</string>
 
     <string name="defaultError">Something horrible has gone wrong!</string>
 
@@ -25,6 +25,7 @@
     <string name="addClassClassYear">Year</string>
     <string name="addClassClassPeriode">Periode</string>
     <string name="addCLassMainClass">Non mandatory</string>
+    <string name="addClassClassLogout">Logout</string>
 
     <string name="classInfoSaveBtn">Save class</string>
 </resources>
