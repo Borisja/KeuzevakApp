@@ -33,7 +33,7 @@ public class SchoolClassList extends AppCompatActivity {
     private List<SchoolClass> classList;
     private List<SchoolClass> userClassList;
     private DatabaseReference firebaseRef;
-    private String userUid;
+    private String userUid = "KM9TfEOWEtRu9dwtdUpnc1cN2C93";
 
     Button mClassListYear1;
     Button mClassListYear2;
@@ -48,13 +48,13 @@ public class SchoolClassList extends AppCompatActivity {
 
         setUpUiElements();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if(user == null){
-            userUid = "KM9TfEOWEtRu9dwtdUpnc1cN2C93";
-        } else {
-            userUid = user.getUid().toString();
-        }
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        if(user == null){
+//            userUid = "KM9TfEOWEtRu9dwtdUpnc1cN2C93";
+//        } else {
+//            userUid = user.getUid().toString();
+//        }
 
         resetLists();
 
@@ -110,6 +110,7 @@ public class SchoolClassList extends AppCompatActivity {
 
     @Override
     public void finish() {
+        resetLists();
         super.finish();
         CustomIntent.customType(this, "right-to-left");
     }

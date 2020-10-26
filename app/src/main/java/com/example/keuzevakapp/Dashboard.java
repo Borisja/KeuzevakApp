@@ -42,17 +42,20 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
+                if(user == null){
+                    startActivity(new Intent(Dashboard.this, MainActivity.class));
+                    finish();
+                }
             }
         });
 
         mViewClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SchoolClassList.class));
-                CustomIntent.customType(Dashboard.this, "left-to-right");
+                startActivity(new Intent(Dashboard.this, SchoolClassList.class));
+               //CustomIntent.customType(Dashboard.this, "left-to-right");
             }
         });
 
