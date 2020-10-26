@@ -8,6 +8,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/classCardView"
         android:layout_width="131dp"
         android:layout_height="125dp"
         android:layout_row="0"
@@ -27,8 +28,8 @@
                 android:id="@+id/classEC"
                 android:layout_width="53dp"
                 android:layout_height="20dp"
-                android:text="EC"
                 android:gravity="center"
+                android:text="EC"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

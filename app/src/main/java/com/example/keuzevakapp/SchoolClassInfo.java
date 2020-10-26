@@ -61,7 +61,10 @@ public class SchoolClassInfo extends AppCompatActivity {
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setValuesToModel();
+                if(!setValuesToModel()){
+                    return;
+                }
+
                 firebaseRef.keepSynced(true);
 
                 firebaseRef.getRoot().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("classes").child(schoolClass.getCode()).setValue(schoolClass).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -70,6 +73,7 @@ public class SchoolClassInfo extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(SchoolClassInfo.this, "Class " + schoolClass.getCode() + " has been saved!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), SchoolClassList.class));
+                            finish();
                         } else {
                             Toast.makeText(SchoolClassInfo.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
                         }
@@ -145,12 +149,23 @@ public class SchoolClassInfo extends AppCompatActivity {
         mClassGrade.setText(String.valueOf(schoolClass.getGrade()));
     }
 
-    private void setValuesToModel(){
-        if(!mClassNotes.getText().toString().isEmpty()){
+    private boolean setValuesToModel(){
+        if(mClassNotes.getText().toString().isEmpty()){
+            schoolClass.setNotes(null);
+        } else {
             schoolClass.setNotes(mClassNotes.getText().toString());
         }
+
+
         if(!mClassGrade.getText().toString().isEmpty()){
-            schoolClass.setGrade(Float.parseFloat(mClassGrade.getText().toString()));
+            if(Double.parseDouble(mClassGrade.getText().toString()) >= 1 && Double.parseDouble(mClassGrade.getText().toString()) <= 10){
+                schoolClass.setGrade(Float.parseFloat(mClassGrade.getText().toString()));
+            } else {
+                Toast.makeText(this, "The grade must either 1 or 10 or between 1 and 10!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
+
+        return true;
     }
 }

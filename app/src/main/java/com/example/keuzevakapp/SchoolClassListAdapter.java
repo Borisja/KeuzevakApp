@@ -3,6 +3,7 @@ package com.example.keuzevakapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -56,6 +58,10 @@ public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassList
             holder.classPassed.setVisibility(View.VISIBLE);
         }
 
+        if(!schoolClass.isMandatory()){
+            holder.classCardView.setCardBackgroundColor(Color.LTGRAY);
+        }
+
         holder.itemView.setOnClickListener((view) -> {
 
             sharedPref = context.getSharedPreferences("classCode", context.MODE_PRIVATE);
@@ -85,6 +91,7 @@ public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassList
         public TextView classPeriod;
         public ImageView classNotes;
         public ImageView classPassed;
+        public CardView classCardView;
 
 
         public ViewHolder(View itemView) {
@@ -97,6 +104,7 @@ public class SchoolClassListAdapter extends RecyclerView.Adapter<SchoolClassList
             classPeriod = itemView.findViewById(R.id.classPeriod);
             classNotes = itemView.findViewById(R.id.classHasNotes);
             classPassed = itemView.findViewById(R.id.classPassed);
+            classCardView = itemView.findViewById(R.id.classCardView);
 
 
         }

@@ -3,6 +3,7 @@ package com.example.keuzevakapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -54,18 +55,21 @@ public class AddSchoolClass extends AppCompatActivity {
                         true);
 
 
+
+                if(mNonMandatory.isChecked()){
+                    newClass.setMandatory(false);
+                }
+
+
                 mDatabase.keepSynced(true);
 
                 mDatabase.child("classes").child(newClass.getCode()).setValue(newClass).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-
-                            if(mNonMandatory.isChecked()){
-                                newClass.setMandatory(false);
-                            }
-                            
                             Toast.makeText(AddSchoolClass.this, "Class " + newClass.getCode() + " has been created", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), Dashboard.class));
+                            finish();
                         } else {
                             Toast.makeText(AddSchoolClass.this, getString(R.string.defaultError), Toast.LENGTH_SHORT).show();
                         }

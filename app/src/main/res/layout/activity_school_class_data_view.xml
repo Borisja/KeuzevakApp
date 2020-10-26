@@ -7,9 +7,51 @@
     tools:context=".SchoolClassDataView">
 
     <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/piechart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/piechart">
+        android:layout_height="562dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp">
 
     </com.github.mikephil.charting.charts.PieChart>
+
+    <Button
+        android:id="@+id/year1Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="316dp"
+        android:layout_marginBottom="566dp"
+        android:text="Year 1" />
+
+    <Button
+        android:id="@+id/year2Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="216dp"
+        android:layout_marginBottom="566dp"
+        android:text="Year 2" />
+
+    <Button
+        android:id="@+id/year3Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="116dp"
+        android:layout_marginBottom="566dp"
+        android:text="Year 3" />
+
+    <Button
+        android:id="@+id/year4Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="566dp"
+        android:text="Year 4" />
 </RelativeLayout>

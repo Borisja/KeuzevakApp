@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -31,6 +33,10 @@ public class SchoolClassDataView extends AppCompatActivity {
     PieChart piechart;
     DatabaseReference firebaseRef;
     SchoolClass schoolClass;
+    Button mYear1Btn;
+    Button mYear2Btn;
+    Button mYear3Btn;
+    Button mYear4Btn;
 
     ArrayList<PieEntry> values;
 
@@ -42,16 +48,57 @@ public class SchoolClassDataView extends AppCompatActivity {
         setContentView(R.layout.activity_school_class_data_view);
 
         setUpUiElements();
-        getClassTemplateFromBackend();
+        getClassTemplateFromBackend(1);
+
+        mYear1Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPieValues();
+                getClassTemplateFromBackend(1);
+            }
+        });
+
+        mYear2Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPieValues();
+                getClassTemplateFromBackend(2);
+            }
+        });
+
+        mYear3Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPieValues();
+                getClassTemplateFromBackend(3);
+            }
+        });
+
+        mYear4Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPieValues();
+                getClassTemplateFromBackend(4);
+            }
+        });
     }
 
-    private void setUpUiElements(){
+    private void resetPieValues() {
+        ECMax = 0;
+        values = new ArrayList<>();
+    }
+
+    private void setUpUiElements() {
         piechart = findViewById(R.id.piechart);
+        mYear1Btn = findViewById(R.id.year1Btn);
+        mYear2Btn = findViewById(R.id.year2Btn);
+        mYear3Btn = findViewById(R.id.year3Btn);
+        mYear4Btn = findViewById(R.id.year4Btn);
 
         values = new ArrayList<>();
     }
 
-    private  void setUpPieChart(){
+    private void setUpPieChart() {
         piechart.setUsePercentValues(true);
         piechart.getDescription().setEnabled(false);
         piechart.setExtraOffsets(5, 10, 5, 5);
@@ -74,19 +121,22 @@ public class SchoolClassDataView extends AppCompatActivity {
         piechart.setData(data);
     }
 
-    private void getUserClassFromBackend(){
+    private void getUserClassFromBackend(int year) {
         firebaseRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("classes");
         firebaseRef.keepSynced(true);
         firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot classSnapshot : snapshot.getChildren()){
+                for (DataSnapshot classSnapshot : snapshot.getChildren()) {
 
                     SchoolClass schoolClass = classSnapshot.getValue(SchoolClass.class);
+                    if (schoolClass.getYear() == year) {
 
-                    if(schoolClass.getGrade() >= 5.5){
-                        ECMax = ECMax - schoolClass.getEc();
-                        values.add(new PieEntry(schoolClass.getEc(),  schoolClass.getCode() + ": " + schoolClass.getEc() + " EC"));
+                        if (schoolClass.getGrade() >= 5.5) {
+                            ECMax = ECMax - schoolClass.getEc();
+                            values.add(new PieEntry(schoolClass.getEc(), schoolClass.getCode() + ": " + schoolClass.getEc() + " EC"));
+                        }
+
                     }
 
                 }
@@ -102,19 +152,19 @@ public class SchoolClassDataView extends AppCompatActivity {
         });
     }
 
-    private void getClassTemplateFromBackend(){
+    private void getClassTemplateFromBackend(int year) {
         firebaseRef = FirebaseDatabase.getInstance().getReference().child("classes");
         firebaseRef.keepSynced(true);
         firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot classSnapshot : snapshot.getChildren()){
-
+                for (DataSnapshot classSnapshot : snapshot.getChildren()) {
                     SchoolClass schoolClass = classSnapshot.getValue(SchoolClass.class);
-                    ECMax = ECMax + schoolClass.getEc();
-
+                    if (schoolClass.getYear() == year) {
+                        ECMax = ECMax + schoolClass.getEc();
+                    }
                 }
-                getUserClassFromBackend();
+                getUserClassFromBackend(year);
             }
 
             @Override
